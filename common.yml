@@ -1,0 +1,25 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:20.0.1
+    depends_on:
+      oracle:
+        condition: service_healthy
+    networks:
+      default:
+        aliases:
+          - keycloak_jgroup
+    environment:
+      JAVA_OPTS: "-Djgroups.dns.query=keycloak_jgroup"
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: oracle
+      KC_DB_URL: jdbc:oracle:thin:@//oracle:1521/xepdb1
+      KC_DB_USERNAME: keycloak_owner
+      KC_DB_PASSWORD: password
+      KC_CACHE: ispn
+      KC_CACHE_STACK: kubernetes
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HTTP_RELATIVE_PATH: /auth
+      KC_HTTP_PROXY: passthrough
+    command: start-dev

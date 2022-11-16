@@ -1,0 +1,43 @@
+services:
+  oracle:
+    image: gvenzl/oracle-xe:21.3.0
+    hostname: oracle
+    container_name: oracle
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    environment:
+      ORACLE_PASSWORD: testing
+    volumes:
+      - ./oracle/container-entrypoint-initdb.d:/container-entrypoint-initdb.d
+
+  haproxy:
+    image: haproxy:2.6
+    hostname: haproxy
+    container_name: haproxy
+    ports:
+      - "8080:80"
+      - "8404:8404"
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+
+  keycloak1:
+    extends:
+      file: common.yml
+      service: keycloak
+    hostname: keycloak1
+    container_name: keycloak1
+    volumes:
+      - ./keycloak/init:/init
+    entrypoint: /init/entrypoint.sh
+
+  keycloak2:
+    extends:
+      file: common.yml
+      service: keycloak
+    hostname: keycloak2
+    container_name: keycloak2
+
