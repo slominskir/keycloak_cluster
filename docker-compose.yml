@@ -18,6 +18,9 @@ services:
     image: haproxy:2.6
     hostname: haproxy
     container_name: haproxy
+    depends_on:
+      - keycloak1
+      - keycloak2
     ports:
       - "8080:80"
       - "8404:8404"
