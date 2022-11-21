@@ -27,11 +27,23 @@ services:
     volumes:
       - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
 
+  ldap:
+    image: 389ds/dirsrv:2.2
+    hostname: ldap
+    container_name: ldap
+    environment:
+      DS_DM_PASSWORD: password
+      DS_SUFFIX_NAME: dc=example,dc=com
+    volumes:
+      - ./ldap/init:/init
+    entrypoint: /init/entrypoint.sh
+
   keycloak1:
     extends:
       file: common.yml
       service: keycloak
     hostname: keycloak1
+    user: root
     container_name: keycloak1
     volumes:
       - ./keycloak/init:/init

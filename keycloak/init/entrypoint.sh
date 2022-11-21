@@ -1,18 +1,24 @@
 #!/bin/bash
 
 echo "--------------------------"
+echo "| Step 0: Install Java 17 |"
+echo "--------------------------"
+microdnf install java-17-openjdk-headless
+microdnf remove java-11-openjdk-headless
+
+echo "--------------------------"
 echo "| Step 1: Start Keycloak |"
 echo "--------------------------"
 
 /opt/keycloak/bin/kc.sh start-dev &
 
-echo "--------------------------------------"
-echo "| Step 2: Wait for Keycloak to start |"
-echo "--------------------------------------"
+echo "----------------------------------------------"
+echo "| Step 2: Wait for Keycloak/HAProxy to start |"
+echo "----------------------------------------------"
 
-until curl ${HOSTNAME}:8080/auth -sf -o /dev/null;
+until curl http://haproxy:80/auth -sf -o /dev/null;
 do
-  echo $(date) " Still waiting for ${HOSTNAME} to start..."
+  echo $(date) " Still waiting for haproxy to accept requests to auth..."
   sleep 5
 done
 
