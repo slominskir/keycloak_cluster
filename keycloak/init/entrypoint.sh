@@ -6,6 +6,10 @@ echo "--------------------------"
 microdnf install java-17-openjdk-headless
 microdnf remove java-11-openjdk-headless
 
+cd /tmp
+wget https://repo1.maven.org/maven2/org/jboss/marshalling/jboss-marshalling-river/2.1.1.Final/jboss-marshalling-river-2.1.1.Final.jar
+wget https://repo1.maven.org/maven2/org/jboss/marshalling/jboss-marshalling/2.1.1.Final/jboss-marshalling-2.1.1.Final.jar
+
 echo "--------------------------"
 echo "| Step 1: Start Keycloak |"
 echo "--------------------------"
