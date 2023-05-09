@@ -4,7 +4,6 @@ echo "#!/bin/bash" > /healthcheck.sh
 echo "curl http://localhost:8080/auth -sf -o /dev/null;" >> /healthcheck.sh
 chmod +x /healthcheck.sh
 
-
 echo "--------------------------"
 echo "| Step 1: Start Keycloak |"
 echo "--------------------------"

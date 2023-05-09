@@ -1,5 +1,5 @@
 # keycloak_cluster
-Keycloak Docker Compose cluster with an Oracle database and two instances of Keycloak load balanced with HAProxy.
+Keycloak Docker Compose cluster with an Oracle database, 389 LDAP directory, and two instances of Keycloak load balanced with HAProxy.
 
 ## Quick Start with Compose
 
