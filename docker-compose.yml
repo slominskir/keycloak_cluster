@@ -28,9 +28,15 @@ services:
       - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
 
   ldap:
-    image: 389ds/dirsrv:2.2
+    image: 389ds/dirsrv:2.4
     hostname: ldap
     container_name: ldap
+    healthcheck:
+      test: ["CMD", "/healthcheck.sh"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     environment:
       DS_DM_PASSWORD: password
       DS_SUFFIX_NAME: dc=example,dc=com
@@ -45,9 +51,18 @@ services:
     hostname: keycloak1
     user: root
     container_name: keycloak1
+    healthcheck:
+      test: ["CMD", "/healthcheck.sh"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     volumes:
       - ./keycloak/init:/init
     entrypoint: /init/entrypoint.sh
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
 
   keycloak2:
     extends:
@@ -55,4 +70,7 @@ services:
       service: keycloak
     hostname: keycloak2
     container_name: keycloak2
+    depends_on:
+      keycloak1:
+        condition: service_healthy
 

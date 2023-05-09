@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "#!/bin/bash" > /healthcheck.sh
+echo "ldapwhoami -H ldap://ldap:3389 -x | grep -q 'anonymous'" >> /healthcheck.sh
+chmod +x /healthcheck.sh
+
 echo "--------------------------------"
 echo "| Step 0: Install client tools |"
 echo "--------------------------------"

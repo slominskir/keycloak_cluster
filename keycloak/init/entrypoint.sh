@@ -1,10 +1,9 @@
 #!/bin/bash
 
-echo "--------------------------"
-echo "| Step 0: Install Java 17 |"
-echo "--------------------------"
-microdnf install java-17-openjdk-headless
-microdnf remove java-11-openjdk-headless
+echo "#!/bin/bash" > /healthcheck.sh
+echo "curl http://localhost:8080/auth -sf -o /dev/null;" >> /healthcheck.sh
+chmod +x /healthcheck.sh
+
 
 echo "--------------------------"
 echo "| Step 1: Start Keycloak |"
